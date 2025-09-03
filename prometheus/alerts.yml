@@ -1,0 +1,10 @@
+groups:
+  - name: example
+    rules:
+      - alert: HighCpuUsage
+        expr: process_cpu_seconds_total > 0.5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: High CPU usage detected
