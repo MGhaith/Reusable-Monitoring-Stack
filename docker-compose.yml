@@ -1,4 +1,5 @@
 services:
+  # Monitoring Stack
   prometheus:
     image: prom/prometheus:v2.53.5
     container_name: prometheus
@@ -9,6 +10,7 @@ services:
       - "9090:9090"
     networks:
       - monitoring
+    restart: unless-stopped
 
   alertmanager:
     image: prom/alertmanager:v0.28.1
@@ -19,6 +21,7 @@ services:
       - "9093:9093"
     networks:
       - monitoring
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:12.1.1
@@ -32,14 +35,17 @@ services:
       - ./grafana/dashboards:/var/lib/grafana/dashboards
     networks:
       - monitoring
+    restart: unless-stopped
   
+  # Exporters
   node_exporter:
     image: prom/node-exporter:latest
     ports:
       - "9100:9100"
     networks:
       - monitoring
-      
+    restart: unless-stopped
+
 networks:
   monitoring:
     driver: bridge
