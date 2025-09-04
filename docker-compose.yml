@@ -4,8 +4,8 @@ services:
     image: prom/prometheus:v2.53.5
     container_name: prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
     ports:
       - "9090:9090"
     networks:
@@ -16,7 +16,7 @@ services:
     image: prom/alertmanager:v0.28.1
     container_name: alertmanager
     volumes:
-      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
     ports:
       - "9093:9093"
     networks:
@@ -31,8 +31,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
     networks:
       - monitoring
     restart: unless-stopped
