@@ -9,6 +9,7 @@ route:
   # Send all alerts to all receivers (for simplicity)
   routes:
     - receiver: email
+    - receiver: slack
 
 receivers:
   # Email notifications
@@ -21,3 +22,15 @@ receivers:
         auth_identity: ${AUTH_IDENTITY}
         auth_password: ${SMTP_PASSWORD}
         require_tls: true
+
+  # Slack notifications
+  - name: slack
+    slack_configs:
+      - api_url: https://$SLACK_API_URL
+        channel: ${SLACK_CHANNEL}
+        send_resolved: true
+        text: |-
+          *Alert:* {{ .CommonAnnotations.summary }}
+          *Description:* {{ .CommonAnnotations.description }}
+          *Severity:* {{ .CommonLabels.severity }}
+          *Instance:* {{ .CommonLabels.instance }}
