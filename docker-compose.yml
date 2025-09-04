@@ -27,7 +27,7 @@ services:
     image: grafana/grafana:12.1.1
     container_name: grafana
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=password
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
     ports:
       - "3000:3000"
     volumes:
