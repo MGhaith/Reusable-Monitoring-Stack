@@ -1,2 +1,5 @@
 # Remove environment variables
 .env
+
+# Remove alertmanager configuration file
+prometheus/alertmanager.yml
