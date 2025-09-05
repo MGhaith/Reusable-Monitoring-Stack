@@ -4,6 +4,7 @@ services:
     image: prom/prometheus:v2.53.5
     container_name: prometheus
     volumes:
+      - prometheus_data:/prometheus
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
     ports:
@@ -16,6 +17,7 @@ services:
     image: prom/alertmanager:v0.28.1
     container_name: alertmanager
     volumes:
+      - alertmanager_data:/alertmanager
       - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
     ports:
       - "9093:9093"
@@ -49,3 +51,7 @@ services:
 networks:
   monitoring:
     driver: bridge
+
+volumes:
+  prometheus_data:
+  alertmanager_data:
