@@ -3,3 +3,5 @@
 
 # Remove alertmanager configuration file
 prometheus/alertmanager.yml
+
+terraform/ecs/.terraform
