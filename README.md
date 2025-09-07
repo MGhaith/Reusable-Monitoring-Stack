@@ -32,7 +32,16 @@ This repository contains a reusable monitoring stack featuring Prometheus, Grafa
 
 #### Alerts
 
-Alerts are configured to notify via email/Slack (For Now) when certain thresholds are met. To check the alerts used in this project, go to the Alerts in **Prometheus UI** or `prometheus\alerts.yml`.
+Alerts are configured to notify via email/Slack when certain thresholds are met. The following alerts are currently configured in `prometheus/alerts.yml`:
+
+- **High CPU Usage**: Triggers when CPU usage exceeds 80% for 5 minutes.
+- **High Memory Usage**: Alerts when memory usage is above 85% for 5 minutes.
+- **Instance Down**: Fires when a monitored instance is unreachable for 2 minutes.
+- **Disk Space Running Low**: Alerts when disk usage reaches 90% capacity.
+
+To view and manage these alerts, you can access them through the **Prometheus UI** or directly modify the `prometheus/alerts.yml` file.
+
+
 
 #### Access
 * Prometheus: http://localhost:9090
