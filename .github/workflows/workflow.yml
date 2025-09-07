@@ -22,14 +22,16 @@ jobs:
       - name: Validate Prometheus config
         run: |
           docker run --rm \
-          -v ${{ github.workspace }}/prometheus:/etc/prometheus \
-          prom/prometheus:v2.53.5 \
-          check config /etc/prometheus/prometheus.yml
+            -v ${{ github.workspace }}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro \
+            prom/prometheus:v2.53.5 \
+            promtool check config /etc/prometheus/prometheus.yml
 
       - name: Validate Alertmanager config
         run: |
-          docker run --rm -v ${{ github.workspace }}/alertmanager:/etc/alertmanager prom/alertmanager \
-          --config.file=/etc/alertmanager/alertmanager.yml --check-config
+          docker run --rm \
+            -v ${{ github.workspace }}/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro \
+            prom/alertmanager:v0.28.1 \
+            amtool check-config /etc/alertmanager/alertmanager.yml
 
   smoke-test:
     runs-on: ubuntu-latest
