@@ -15,19 +15,19 @@ receivers:
   # Email notifications
   - name: email
     email_configs:
-      - to: ${TO_EMAIL}  # Recipient email address
-        from: ${FROM_EMAIL}  # Sender email address
-        smarthost: ${SMARTHOST}  # SMTP server address (e.g., smtp.gmail.com:587)
-        auth_username: ${AUTH_USERNAME}  # SMTP authentication username
-        auth_identity: ${AUTH_IDENTITY}  # SMTP authentication identity (usually same as username)
-        auth_password: ${SMTP_PASSWORD}  # SMTP authentication password
+      - to: "your-email@example.com"  # Recipient email address
+        from: "alertmanager@example.com"  # Sender email address
+        smarthost: "smtp.gmail.com:587"  # SMTP server address, only change this if you have something else
+        auth_username: "your-gmail@gmail.com"  # SMTP authentication username
+        auth_identity: "your-gmail@gmail.com"  # SMTP authentication identity (usually same as username)
+        auth_password: "your password here"  # Use Gmail app password, not your main password
         require_tls: true
 
   # Slack notifications
   - name: slack
     slack_configs:
-      - api_url: ${SLACK_API_URL}  # Slack webhook URL for notifications
-        channel: ${SLACK_CHANNEL}  # Slack channel name (e.g., #alerts)
+      - api_url: "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"  # Slack webhook URL for notifications
+        channel: "#alerts"  # Slack channel name (e.g., #alerts)
         send_resolved: true
         text: |-
           *Alert:* {{ .CommonAnnotations.summary }}
