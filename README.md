@@ -1,8 +1,8 @@
-# Reusable Monitoring Stack
+# Reusable Monitoring Stack (WIP)
 
 ## Overview
 
-This repository contains a reusable monitoring stack featuring Prometheus, Grafana, and Alertmanager. It's designed to be deployed locally or in the cloud with a single command.
+This repository contains a reusable monitoring stack featuring Prometheus, Grafana, and Alertmanager. It's designed to be deployed locally or in the cloud.
 
 ---
 
@@ -10,42 +10,45 @@ This repository contains a reusable monitoring stack featuring Prometheus, Grafa
 
 ![Architecture Diagram](architecture-diagram.png)
 
----
-
-
 ## Deployment
 
-### Local Deployment
+### Local Deployment (Docker Environment)
 
-```bash
-docker-compose up -d
-```
+#### Prerequisites
+1. Install [Docker Desktop](https://docs.docker.com/get-started/get-docker/)
+2. Make sure Docker is running on your machine
 
-### Cloud Deployment
+#### Setup Steps
+1. Copy the environment file:
+   ```bash
+   cp .env.example .env
+   ```
+2. Edit the `.env` file
+3. To get alerts using Alert Manager: Edit `prometheus/alertmanager.yml` file to add your **Slack** and/or **Gmail** credentials.
+4. Start the stack:
+   ```bash
+   docker-compose up -d
+   ```
 
-```bash
-terraform init
-terraform apply
-```
+#### Alerts
 
-## Access
-Prometheus: http://localhost:9090
+Alerts are configured to notify via email/Slack (For Now) when certain thresholds are met. To check the alerts used in this project, go to the Alerts in **Prometheus UI** or `prometheus\alerts.yml`.
 
-Grafana: http://localhost:3000 (Username: ```admin```, Password: ```admin```)
+#### Access
+* Prometheus: http://localhost:9090
+* Alertmanager: http://localhost:9093
+* Grafana: http://localhost:3000 (Username: ```admin```, Password: ```"your Grafana password"```)
 
-## Alerts
-
-Alerts are configured to notify via email/Slack when certain thresholds are met.
-
-## License
-
-MIT
+### Cloud Deployment (Coming Soon)
 
 ## 🎯 Stretch Goals
 
 - **Integrate with GitHub Actions**: Monitor CI/CD pipelines and visualize metrics.
 - **Add Loki for Log Aggregation**: Enhance observability by aggregating logs.
 - **Implement Auto-Scaling**: Use AWS Auto Scaling to adjust resources based on load.
+
+## License
+MIT
 
 ---
 
