@@ -8,7 +8,7 @@ This repository contains a reusable monitoring stack featuring Prometheus, Grafa
 
 ## 🖼️ Architecture Diagram
 
-![Architecture Diagram](architecture-diagram.png)
+<img width="1283" height="780" alt="ReusableMonitoringStack" src="https://github.com/user-attachments/assets/6eb18ea1-4496-4810-8d75-e84410a2d4eb" />
 
 ## Deployment
 
