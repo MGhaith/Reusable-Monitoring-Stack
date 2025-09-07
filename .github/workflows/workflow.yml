@@ -20,9 +20,10 @@ jobs:
         run: docker compose config
 
       - name: Validate Prometheus config
-        run: |
-          docker run --rm -v ${{ github.workspace }}/prometheus:/etc/prometheus prom/prometheus \
-          --config.file=/etc/prometheus/prometheus.yml --check-config
+        run: docker run --rm \
+          -v ${{ github.workspace }}/prometheus:/etc/prometheus \
+          prom/prometheus:v2.53.5 \
+          check config /etc/prometheus/prometheus.yml
 
       - name: Validate Alertmanager config
         run: |
