@@ -22,7 +22,7 @@ jobs:
       - name: Validate Prometheus config
         run: |
           docker run --rm \
-            -v "${{ github.workspace }}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro" \
+            -v "${{ github.workspace }}/prometheus:/etc/prometheus:ro" \
             --entrypoint /bin/promtool \
             prom/prometheus:v2.53.5 \
             check config /etc/prometheus/prometheus.yml
