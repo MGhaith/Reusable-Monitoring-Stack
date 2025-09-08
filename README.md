@@ -41,8 +41,6 @@ Alerts are configured to notify via email/Slack when certain thresholds are met.
 
 To view and manage these alerts, you can access them through the **Prometheus UI** or directly modify the `prometheus/alerts.yml` file.
 
-
-
 #### Access
 * Prometheus: http://localhost:9090
 * Alertmanager: http://localhost:9093
@@ -50,11 +48,32 @@ To view and manage these alerts, you can access them through the **Prometheus UI
 
 ### Cloud Deployment (Coming Soon)
 
+## CI/CD Workflow
+
+This project uses GitHub Actions for continuous integration. The workflow includes:
+
+1. **Validation**:
+   - Validates Docker Compose configuration
+   - Validates Prometheus configuration using promtool
+   - Validates Alertmanager configuration using amtool
+
+2. **Smoke Testing**:
+   - Builds and starts the complete monitoring stack
+   - Waits for services to initialize
+   - Verifies container health status
+   - Performs cleanup by tearing down the stack
+
+The workflow runs automatically on:
+- Push events to the main branch
+- Pull request events targeting the main branch
+
+This ensures that all configuration files are valid and the stack can be successfully deployed before changes are merged.
+
 ## 🎯 Stretch Goals
 
 - **Integrate with GitHub Actions**: Monitor CI/CD pipelines and visualize metrics.
 - **Add Loki for Log Aggregation**: Enhance observability by aggregating logs.
-- **Implement Auto-Scaling**: Use AWS Auto Scaling to adjust resources based on load.
+- **Add Terraform for Infrastructure as Code**: Use Terraform to provision and manage AWS resources.
 
 ## License
 MIT
