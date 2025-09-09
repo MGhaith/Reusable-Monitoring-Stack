@@ -3,11 +3,17 @@ output "vpc_id" {
 }
 
 output "public_subnets" {
-  value = [for s in aws_subnet.public : s.id]
+  value = {
+    for s in aws_subnet.public :
+    s.availability_zone => s.id
+  }
 }
 
 output "private_subnets" {
-  value = [for s in aws_subnet.private : s.id]
+  value = {
+    for s in aws_subnet.private :
+    s.availability_zone => s.id
+  }
 }
 
 output "default_sg_id" {
