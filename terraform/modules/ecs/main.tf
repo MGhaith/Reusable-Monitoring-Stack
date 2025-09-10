@@ -175,6 +175,46 @@ resource "aws_ecs_task_definition" "alertmanager" {
   }
 }
 
+resource "aws_security_group" "ecs" {
+  name   = "monitoring-ecs-sg"
+  vpc_id = var.vpc_id
+
+  # Grafana (3000), Prometheus (9090), Alertmanager (9093)
+  ingress {
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = var.alb_security_group
+  }
+
+  ingress {
+    from_port       = 9090
+    to_port         = 9090
+    protocol        = "tcp"
+    security_groups = var.alb_security_group
+  }
+
+  ingress {
+    from_port       = 9093
+    to_port         = 9093
+    protocol        = "tcp"
+    security_groups = var.alb_security_group
+  }
+
+  # Outbound: allow everything (so tasks can pull images, talk to internet via NAT)
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "monitoring-ecs-sg"
+  }
+}
+
+
 # Log group for Prometheus
 resource "aws_cloudwatch_log_group" "prometheus" {
   name              = "/ecs/prometheus"
