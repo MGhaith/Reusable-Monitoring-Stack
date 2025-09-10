@@ -18,3 +18,15 @@ module "vpc" {
 module "iam" {
   source = "./modules/iam"
 }
+
+############################################################
+# 3. EFS for Persistent Storage
+############################################################
+module "efs" {
+  source = "./modules/efs"
+  name = "monitoring"
+
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.private_subnets
+  security_groups = [module.vpc.default_sg_id]
+}
