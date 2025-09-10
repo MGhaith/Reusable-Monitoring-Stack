@@ -2,6 +2,10 @@ variable "cluster_name" {
   type = string
 }
 
+variable "vpc_id" {
+  type = string
+}
+
 variable "task_execution_arn" {
   type = string
 }
@@ -42,6 +46,23 @@ variable "private_subnets" {
   type = list(string)
 }
 
-variable "security_groups" {
+variable "alb_security_group" {
   type = list(string)
+}
+
+# ALB Variables
+variable "tg_prometheus_arn" {
+  type = string
+}
+
+variable "tg_grafana_arn" {
+  type = string
+}
+
+variable "tg_alertmanager_arn" {
+  type = string
+}
+
+variable "listener_arn" {
+  type = string
 }
