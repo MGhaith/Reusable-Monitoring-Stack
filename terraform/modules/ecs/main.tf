@@ -49,6 +49,12 @@ resource "aws_ecs_task_definition" "prometheus" {
           containerPath = "/prometheus"
         }
       ]
+      command = [
+        "--config.file=/etc/prometheus/prometheus.yml",
+        "--storage.tsdb.path=/prometheus",
+        "--web.external-url=/prometheus",
+        "--web.route-prefix=/prometheus"
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -108,6 +114,16 @@ resource "aws_ecs_task_definition" "grafana" {
           awslogs-stream-prefix = "ecs"
         }
       }
+      environment = [
+        {
+          name  = "GF_SERVER_ROOT_URL"
+          value = "%(protocol)s://%(domain)s/grafana"
+        },
+        {
+          name  = "GF_SERVER_SERVE_FROM_SUB_PATH"
+          value = "true"
+        }
+      ]
     }
   ])
 
@@ -159,6 +175,12 @@ resource "aws_ecs_task_definition" "alertmanager" {
           awslogs-stream-prefix = "ecs"
         }
       }
+      command = [
+        "--config.file=/etc/alertmanager/alertmanager.yml",
+        "--storage.path=/alertmanager",
+        "--web.external-url=/alertmanager",
+        "--web.route-prefix=/alertmanager"
+      ]
     }
   ])
 
