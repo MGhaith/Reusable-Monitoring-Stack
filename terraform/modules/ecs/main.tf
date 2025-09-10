@@ -249,6 +249,15 @@ resource "aws_ecs_service" "prometheus" {
     security_groups = [aws_security_group.ecs.id]
     assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
+
+  load_balancer {
+    target_group_arn = var.tg_prometheus_arn
+    container_name   = "prometheus" # must match container name in task definition
+    container_port   = 9090
+  }
+
+  depends_on = [var.listener_arn]
+
 }
 
 resource "aws_ecs_service" "grafana" {
@@ -263,6 +272,15 @@ resource "aws_ecs_service" "grafana" {
     security_groups = [aws_security_group.ecs.id]
     assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
+
+  load_balancer {
+    target_group_arn = var.tg_grafana_arn
+    container_name   = "grafana" # must match container name in task definition
+    container_port   = 3000
+  }
+
+  depends_on = [var.listener_arn]
+
 }
 
 resource "aws_ecs_service" "alertmanager" {
@@ -277,4 +295,13 @@ resource "aws_ecs_service" "alertmanager" {
     security_groups = [aws_security_group.ecs.id]
     assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
+
+  load_balancer {
+    target_group_arn = var.tg_alertmanager_arn
+    container_name   = "alertmanager" # must match container name in task definition
+    container_port   = 9093
+  }
+
+  depends_on = [var.listener_arn]
+
 }
