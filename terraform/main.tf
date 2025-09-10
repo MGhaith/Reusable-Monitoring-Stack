@@ -30,3 +30,23 @@ module "efs" {
   subnets = module.vpc.private_subnets
   security_groups = [module.vpc.default_sg_id]
 }
+
+############################################################
+# 4. ECS Cluster + Services
+############################################################
+module "ecs" {
+  source = "./modules/ecs"
+
+  cluster_name      = "monitoring-cluster"
+  task_execution_arn = module.iam.ecs_task_execution_role_arn
+  task_role_arn      = module.iam.ecs_task_role_arn
+  prometheus_image   = "prom/prometheus:v2.53.5"
+  grafana_image      = "grafana/grafana:12.1.1"
+  alertmanager_image = "prom/alertmanager:v0.28.1"
+  efs_id            = module.efs.efs_id
+  prometheus_ap_id  = module.efs.prometheus_ap_id
+  grafana_ap_id     = module.efs.grafana_ap_id
+  alertmanager_ap_id = module.efs.alertmanager_ap_id
+  private_subnets   = module.vpc.private_subnets_list
+  security_groups   = [module.vpc.default_sg_id]
+}
