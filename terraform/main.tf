@@ -37,18 +37,24 @@ module "efs" {
 module "ecs" {
   source = "./modules/ecs"
 
-  cluster_name      = "monitoring-cluster"
-  task_execution_arn = module.iam.ecs_task_execution_role_arn
-  task_role_arn      = module.iam.ecs_task_role_arn
-  prometheus_image   = "prom/prometheus:v2.53.5"
-  grafana_image      = "grafana/grafana:12.1.1"
-  alertmanager_image = "prom/alertmanager:v0.28.1"
-  efs_id            = module.efs.efs_id
-  prometheus_ap_id  = module.efs.prometheus_ap_id
-  grafana_ap_id     = module.efs.grafana_ap_id
-  alertmanager_ap_id = module.efs.alertmanager_ap_id
-  private_subnets   = module.vpc.private_subnets_list
-  security_groups   = [module.vpc.default_sg_id]
+  cluster_name        = "monitoring-cluster"
+  vpc_id              = module.vpc.vpc_id
+  task_execution_arn  = module.iam.ecs_task_execution_role_arn
+  task_role_arn       = module.iam.ecs_task_role_arn
+  prometheus_image    = "prom/prometheus:v2.53.5"
+  grafana_image       = "grafana/grafana:12.1.1"
+  alertmanager_image  = "prom/alertmanager:v0.28.1"
+  efs_id              = module.efs.efs_id
+  prometheus_ap_id    = module.efs.prometheus_ap_id
+  grafana_ap_id       = module.efs.grafana_ap_id
+  alertmanager_ap_id  = module.efs.alertmanager_ap_id
+  private_subnets     = module.vpc.private_subnets_list
+  alb_security_group  = [module.alb.alb_sg_id]
+
+  tg_prometheus_arn = module.alb.tg_prometheus_arn
+  tg_grafana_arn = module.alb.tg_grafana_arn
+  tg_alertmanager_arn = module.alb.tg_alertmanager_arn
+  listener_arn = module.alb.listener_arn
 }
 
 ############################################################
