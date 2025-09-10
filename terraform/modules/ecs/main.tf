@@ -246,8 +246,8 @@ resource "aws_ecs_service" "prometheus" {
 
   network_configuration {
     subnets         = var.private_subnets
-    security_groups = var.security_groups
-    assign_public_ip = false
+    security_groups = [aws_security_group.ecs.id]
+    assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
 }
 
@@ -260,8 +260,8 @@ resource "aws_ecs_service" "grafana" {
 
   network_configuration {
     subnets         = var.private_subnets
-    security_groups = var.security_groups
-    assign_public_ip = false
+    security_groups = [aws_security_group.ecs.id]
+    assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
 }
 
@@ -274,7 +274,7 @@ resource "aws_ecs_service" "alertmanager" {
 
   network_configuration {
     subnets         = var.private_subnets
-    security_groups = var.security_groups
-    assign_public_ip = false
+    security_groups = [aws_security_group.ecs.id]
+    assign_public_ip = true # Not best practice but saves costs since we are not using NAT gw
   }
 }
