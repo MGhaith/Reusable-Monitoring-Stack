@@ -50,3 +50,14 @@ module "ecs" {
   private_subnets   = module.vpc.private_subnets_list
   security_groups   = [module.vpc.default_sg_id]
 }
+
+############################################################
+# 5. Application Load Balancer (ALB)
+############################################################
+module "alb" {
+  source = "./modules/alb"
+
+  project_name    = "reusable-monitoring-stack"
+  vpc_id          = module.vpc.vpc_id
+  public_subnets  = module.vpc.public_subnets_list
+}
