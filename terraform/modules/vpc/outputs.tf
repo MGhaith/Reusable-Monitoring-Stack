@@ -16,6 +16,14 @@ output "private_subnets" {
   }
 }
 
+output "public_subnets_list" {
+  value = [for s in aws_subnet.public : s.id]
+}
+
+output "private_subnets_list" {
+  value = [for s in aws_subnet.private : s.id]
+}
+
 output "default_sg_id" {
   value = aws_security_group.default.id
 }
