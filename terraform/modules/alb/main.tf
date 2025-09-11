@@ -7,12 +7,12 @@ resource "aws_security_group" "alb" {
   name   = "${var.project_name}-alb-sg"
   vpc_id = var.vpc_id
 
-  # Inbound: allow HTTP from anywhere
+  # Inbound: allow HTTP from specific CIDR blocks
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.allowed_cidr_blocks # This will be a new variable
   }
 
   # Outbound: allow everything (default)
@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "grafana" {
   target_type = "ip"
 
   health_check {
-    path                = "/"
+    path                = "/grafana/api/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "prometheus" {
   target_type = "ip"
 
   health_check {
-    path                = "/-/ready"
+    path                = "/prometheus/-/ready"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -93,7 +93,7 @@ resource "aws_lb_target_group" "alertmanager" {
   target_type = "ip"
 
   health_check {
-    path                = "/-/healthy"
+    path                = "/alertmanager/-/healthy"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
