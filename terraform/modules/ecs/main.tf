@@ -66,12 +66,13 @@ resource "aws_ecs_task_definition" "prometheus" {
     }
   ])
 
+  # For Prometheus task definition
   volume {
     name = "prometheus-data"
     efs_volume_configuration {
-      file_system_id          = var.efs_id
+      file_system_id = var.efs_id
       authorization_config {
-        access_point_id = var.prometheus_ap_id
+        access_point_id = var.monitoring_ap_id # Updated variable name
         iam             = "ENABLED"
       }
       transit_encryption = "ENABLED"
@@ -132,7 +133,7 @@ resource "aws_ecs_task_definition" "grafana" {
     efs_volume_configuration {
       file_system_id          = var.efs_id
       authorization_config {
-        access_point_id = var.grafana_ap_id
+        access_point_id = var.monitoring_ap_id
         iam             = "ENABLED"
       }
       transit_encryption = "ENABLED"
@@ -175,12 +176,6 @@ resource "aws_ecs_task_definition" "alertmanager" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      command = [
-        "--config.file=/etc/alertmanager/alertmanager.yml",
-        "--storage.path=/alertmanager",
-        "--web.external-url=/alertmanager",
-        "--web.route-prefix=/alertmanager"
-      ]
     }
   ])
 
@@ -189,10 +184,11 @@ resource "aws_ecs_task_definition" "alertmanager" {
     efs_volume_configuration {
       file_system_id          = var.efs_id
       authorization_config {
-        access_point_id = var.alertmanager_ap_id
+        access_point_id = var.monitoring_ap_id
         iam             = "ENABLED"
       }
       transit_encryption = "ENABLED"
+
     }
   }
 }
