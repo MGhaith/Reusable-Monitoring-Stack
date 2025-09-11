@@ -38,6 +38,3 @@ terraform.rc
 
 # Remove environment variables
 .env
-
-
-terraform/ecs/.terraform

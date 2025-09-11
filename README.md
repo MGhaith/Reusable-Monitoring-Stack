@@ -1,4 +1,4 @@
-# Reusable Monitoring Stack (WIP)
+# Reusable Monitoring Stack
 
 ## Overview
 
@@ -6,13 +6,13 @@ This repository contains a reusable monitoring stack featuring Prometheus, Grafa
 
 ---
 
-## 🖼️ Architecture Diagram
-
-<img width="1283" height="780" alt="ReusableMonitoringStack" src="https://github.com/user-attachments/assets/6eb18ea1-4496-4810-8d75-e84410a2d4eb" />
-
 ## Deployment
 
 ### Local Deployment (Docker Environment)
+
+#### 🖼️ Architecture Diagram
+
+<img width="1283" height="780" alt="ReusableMonitoringStack" src="https://github.com/user-attachments/assets/6eb18ea1-4496-4810-8d75-e84410a2d4eb" />
 
 #### Prerequisites
 1. Install [Docker Desktop](https://docs.docker.com/get-started/get-docker/)
@@ -46,7 +46,66 @@ To view and manage these alerts, you can access them through the **Prometheus UI
 * Alertmanager: http://localhost:9093
 * Grafana: http://localhost:3000 (Username: ```admin```, Password: ```"your Grafana password"```)
 
-### Cloud Deployment (Coming Soon)
+### Cloud Deployment (AWS)
+
+#### 🖼️ Architecture Diagram
+
+[Architecture diagram to be added]
+
+#### Prerequisites
+
+1. [AWS CLI](https://aws.amazon.com/cli/) installed and configured
+2. [Terraform](https://www.terraform.io/downloads.html) (v1.0.0+) installed
+3. AWS account with appropriate permissions
+
+#### Infrastructure Components
+
+- **VPC**: Isolated network with public and private subnets
+- **ECS Cluster**: For running containerized services
+- **Application Load Balancer**: For routing traffic to services
+- **EFS**: For persistent storage of monitoring data
+- **IAM Roles**: For proper service permissions
+
+#### Setup Steps
+
+1. Configure AWS credentials:
+   ```bash
+   aws configure
+   ```
+
+2. Initialize Terraform:
+   ```bash
+   cd terraform
+   terraform init
+   ```
+
+3. Plan the deployment:
+   ```bash
+   terraform plan -out=tfplan
+   ```
+
+4. Apply the configuration:
+   ```bash
+   terraform apply tfplan
+   ```
+
+5. After successful deployment, Terraform will output the ALB DNS name.
+
+#### Access
+
+* Prometheus: http://[ALB-DNS-NAME]/prometheus
+* Alertmanager: http://[ALB-DNS-NAME]/alertmanager
+* Grafana: http://[ALB-DNS-NAME]/grafana (Username: ```admin```, Password: ```admin```)
+
+#### Cleanup
+
+To destroy all created resources:
+
+```bash
+terraform destroy
+```
+
+**Note**: This will remove all resources including persistent data stored in EFS.
 
 ## CI/CD Workflow
 
@@ -68,6 +127,22 @@ The workflow runs automatically on:
 - Pull request events targeting the main branch
 
 This ensures that all configuration files are valid and the stack can be successfully deployed before changes are merged.
+
+## Troubleshooting
+
+### Common Issues
+
+#### Local Deployment
+
+- **Port Conflicts**: If services fail to start, check if ports 9090, 9093, or 3000 are already in use.
+- **Container Startup Failures**: Check logs with `docker-compose logs [service_name]`.
+- **Permission Issues**: Ensure proper permissions on mounted volumes.
+
+#### Cloud Deployment
+
+- **Health Check Failures**: Verify ALB target group settings and container health check endpoints.
+- **ECS Task Failures**: Check CloudWatch Logs for container startup issues.
+- **Networking Issues**: Verify security group rules allow necessary traffic.
 
 ## 🎯 Stretch Goals
 
