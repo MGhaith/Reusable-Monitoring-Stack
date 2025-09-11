@@ -26,58 +26,20 @@ resource "aws_efs_mount_target" "this" {
   security_groups = var.security_groups
 }
 
-# Access Point for Prometheus
-resource "aws_efs_access_point" "prometheus" {
+# Single Access Point for all monitoring services
+resource "aws_efs_access_point" "monitoring" {
   file_system_id = aws_efs_file_system.this.id
 
   posix_user {
-    uid = 1001
-    gid = 1001
+    uid = 1000
+    gid = 1000
   }
 
   root_directory {
-    path = "/prometheus"
+    path = "/monitoring"
     creation_info {
-      owner_uid   = 1001
-      owner_gid   = 1001
-      permissions =  "0755"
-    }
-  }
-}
-
-# Access Point for Grafana
-resource "aws_efs_access_point" "grafana" {
-  file_system_id = aws_efs_file_system.this.id
-
-  posix_user {
-    uid = 1002
-    gid = 1002
-  }
-
-  root_directory {
-    path = "/grafana"
-    creation_info {
-      owner_uid   = 1002
-      owner_gid   = 1002
-      permissions =  "0755"
-    }
-  }
-}
-
-# Access Point for Alertmanager
-resource "aws_efs_access_point" "alertmanager" {
-  file_system_id = aws_efs_file_system.this.id
-
-  posix_user {
-    uid = 1003
-    gid = 1003
-  }
-
-  root_directory {
-    path = "/alertmanager"
-    creation_info {
-      owner_uid   = 1003
-      owner_gid   = 1003
+      owner_uid   = 1000
+      owner_gid   = 1000
       permissions = "0755"
     }
   }

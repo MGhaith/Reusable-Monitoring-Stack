@@ -30,15 +30,7 @@ variable "efs_id" {
   type = string
 }
 
-variable "prometheus_ap_id" {
-  type = string
-}
-
-variable "grafana_ap_id" {
-  type = string
-}
-
-variable "alertmanager_ap_id" {
+variable "monitoring_ap_id" {
   type = string
 }
 

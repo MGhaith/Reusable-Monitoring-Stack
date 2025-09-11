@@ -45,9 +45,7 @@ module "ecs" {
   grafana_image       = "grafana/grafana:12.1.1"
   alertmanager_image  = "prom/alertmanager:v0.28.1"
   efs_id              = module.efs.efs_id
-  prometheus_ap_id    = module.efs.prometheus_ap_id
-  grafana_ap_id       = module.efs.grafana_ap_id
-  alertmanager_ap_id  = module.efs.alertmanager_ap_id
+  monitoring_ap_id    = module.efs.monitoring_ap_id
   private_subnets     = module.vpc.private_subnets_list
   alb_security_group  = [module.alb.alb_sg_id]
 
