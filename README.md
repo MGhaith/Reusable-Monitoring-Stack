@@ -4,8 +4,6 @@
 
 This repository contains a reusable monitoring stack featuring Prometheus, Grafana, and Alertmanager. It's designed to be deployed locally or in the cloud.
 
----
-
 ## Deployment
 
 ### Local Deployment (Docker Environment)
@@ -47,6 +45,17 @@ To view and manage these alerts, you can access them through the **Prometheus UI
 * Grafana: http://localhost:3000 (Username: ```admin```, Password: ```"your Grafana password"```)
 
 ### Cloud Deployment (AWS)
+
+> ⚠️ **WARNING: Cost Implications** ⚠️
+> 
+> Deploying this stack on AWS will incur costs for several resources, including but not limited to:
+> - **NAT Gateway** (~$32/month per gateway)
+> - **Application Load Balancer** (~$20/month)
+> - **EFS Storage** (pricing varies based on usage, ~$0.30/GB-month)
+>
+> Please review AWS pricing carefully before deployment to avoid unexpected charges.
+
+> **Note**: By default, this stack will be deployed in the `eu-central-1` region. To change the deployment region, modify the `provider.tf` file in the terraform directory.
 
 #### 🖼️ Architecture Diagram
 
@@ -146,9 +155,9 @@ This ensures that all configuration files are valid and the stack can be success
 
 ## 🎯 Stretch Goals
 
-- **Integrate with GitHub Actions**: Monitor CI/CD pipelines and visualize metrics.
+- **Add Kubernetes Support**: Enable deployment on Kubernetes clusters for better scalability.
 - **Add Loki for Log Aggregation**: Enhance observability by aggregating logs.
-- **Add Terraform for Infrastructure as Code**: Use Terraform to provision and manage AWS resources.
+- **Implement Service Discovery**: Add automatic service discovery for dynamic environments.
 
 ## License
 MIT
