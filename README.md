@@ -59,7 +59,7 @@ To view and manage these alerts, you can access them through the **Prometheus UI
 
 #### 🖼️ Architecture Diagram
 
-[Architecture diagram to be added]
+![portfolio-full-architecture-Page-3](https://github.com/user-attachments/assets/1d918af2-2ef4-48f5-a01d-22ebcf2dafff)
 
 #### Prerequisites
 
